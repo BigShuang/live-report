@@ -1,0 +1,46 @@
+.danmu-content {
+    position: absolute;
+    width: 100%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* overflow: hidden; */
+    z-index: -1;
+}
+
+.danmu-content  .rolling-danmuku {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+
+.dynamic-letters {
+    background-color: #eee;
+}
+
+.static-danmuku {
+    position: absolute;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+.static-danmuku .strong{
+    color: #777;
+    font-weight: bold;
+    padding: auto;
+}
+
+
+.captain-info {
+    margin: 0 auto;
+    width: fit-content;
+    padding: 3px;
+    font-size: 20px;
+}
+
+.s6-cc {
+    padding-bottom: 50px;
+}

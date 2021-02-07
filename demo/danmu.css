@@ -1,0 +1,60 @@
+
+
+.rolling-danmuku {
+    margin: 0;
+    /* Starting position */
+    -moz-transform:translateX(1250px);
+    -webkit-transform:translateX(1200px);  
+    transform:translateX(1200px);
+    
+}
+
+.rolling-danmuku.danmu-speed-0 {
+    -moz-animation: example1 5s linear ;
+    -webkit-animation: example1 5s linear ;
+    animation: example1 10s linear;
+}
+
+.rolling-danmuku.danmu-speed-1 {
+    -moz-animation: example1 5s linear ;
+    -webkit-animation: example1 5s linear ;
+    animation: example1 9s linear;
+}
+.rolling-danmuku .danmu-speed-2 {
+    -moz-animation: example1 5s linear ;
+    -webkit-animation: example1 5s linear ;
+    animation: example1 8s linear;
+}
+.rolling-danmuku.danmu-speed-3 {
+    -moz-animation: example1 5s linear ;
+    -webkit-animation: example1 5s linear ;
+    animation: example1 7s linear;
+}
+.rolling-danmuku.danmu-speed-4 {
+    -moz-animation: example1 5s linear ;
+    -webkit-animation: example1 5s linear ;
+    animation: example1 6s linear;
+}
+
+/* Move it (define the animation) */
+@-moz-keyframes example1 {
+0%   { -moz-transform: translateX(100%); }
+100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes example1 {
+0%   { -webkit-transform: translateX(100%); }
+100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes example1 {
+0%   { 
+-moz-transform: translateX(1250px); /* Firefox bug fix */
+-webkit-transform: translateX(1250px); /* Firefox bug fix */
+transform: translateX(1250px);     
+}
+
+100% { 
+-moz-transform: translateX(-100%); /* Firefox bug fix */
+-webkit-transform: translateX(-1250px); /* Firefox bug fix */
+transform: translateX(-1250px); 
+}
+}

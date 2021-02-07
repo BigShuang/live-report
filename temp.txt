@@ -1,0 +1,9 @@
+			if (Object.prototype.toString.call( tickFont.color ) === '[object Array]') {
+				ctx.fillStyle = tickFont.color[i % tickFont.color.length];
+			} else if (typeof tickFont.color === 'function') {
+				ctx.fillStyle = tickFont.color(i);
+			} else {
+				ctx.fillStyle = tickFont.color;
+			}
+
+12417

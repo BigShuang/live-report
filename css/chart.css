@@ -1,0 +1,11 @@
+.chart-container .chart{
+    opacity: 0;
+}
+
+
+.chart {
+    width: 600px;
+    height: 500px;
+}
+
+

@@ -1,0 +1,124 @@
+html, body {
+    background: #eee;
+    overflow-x:hidden;
+}
+
+.header {
+    margin: 5px auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #00000070;
+}
+
+.main-content {
+    position: absolute;
+    width: 80%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.danmuku-board {
+    position: absolute;
+    width: 100%;
+    height: 450px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.danmuku-board .rolling-danmuku {
+    position: absolute;
+    word-break: keep-all;
+    white-space: nowrap;
+    font-size: 20px;
+}
+
+.danmuku-board .rolling-danmuku span {
+    color: #333;
+    padding: 0 5px;
+}
+
+h2.main-title {
+    margin: 0 auto;
+    font-size: 36px;
+    font-weight: 400;
+    text-align: center;
+    transform-origin: 0 0;
+    display: block;
+
+}
+
+
+h2.main-title .title-point {
+    color: #ff6384;
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+/* for animation */
+h2.main-title {
+    font-size: 1.9em;
+    text-transform: uppercase;
+    line-height: 1.9em;
+    padding: 1.8em;
+    overflow: hidden;
+
+}
+
+h2.main-title#s1-title, 
+h2.main-title#s4-title {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+h2.main-title .dynamic-letters {
+    display: inline-block;
+    letter-spacing: 0.2em;
+}
+
+.dynamic-letters {
+    display: inline-block;
+    opacity: 0;
+}
+
+
+#s0-title {
+    line-height: 100px;
+    font-size: 60px;
+    padding: 250px;
+}
+
+
+/* s7 */
+h2#s7-title {
+    padding-top: 150px;
+}
+
+
+h2.main-title .title-point-2 {
+    color: #ff6384;
+    /* font-weight: bold; */
+    display: inline-block;
+}
+
+.poems-lines {
+    text-align: center;
+    font-size: 36px;
+    color: #555;
+    padding: 10px;
+    font-family: 'Ma Shan Zheng','Zhi Mang Xing', cursive;
+}
+
+.poems-title {
+    padding: 50px;
+    text-align: center;
+    font-size: 24px;
+    color: #00000080;
+    font-family: 'Ma Shan Zheng','Zhi Mang Xing', cursive;
+}

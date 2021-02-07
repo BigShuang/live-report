@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>直播年度报告</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/chart.css">
+    <link rel="stylesheet" href="./css/danmu.css">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script> -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+
+    <script src="./js/chart.js"></script>
+    <!-- <script src="./demo/anime.min.js"></script> -->
+    <script src="./js/anime.min.js"></script>
+    <!-- <script src="./demo/anime.js"></script> -->
+    <script src="./js/setting.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/data/scene1.js"></script>
+    <script src="./js/s1.js"></script>
+    <script src="./js/data/scene2.js"></script>
+    <script src="./js/s2.js"></script>
+    <script src="./js/data/scene3.js"></script>
+    <script src="./js/s3.js"></script>
+    <script src="./js/data/scene4.js"></script>
+    <script src="./js/s4.js"></script>
+    <script src="./js/data/scene5.js"></script>
+    <script src="./js/s5.js"></script>
+    <script src="./js/data/scene6.js"></script>
+    <script src="./js/s6.js"></script>
+    <script src="./js/data/scene7.js"></script>
+    <script src="./js/s7.js"></script>
+</head>
+<body>
+    <!-- <div class="header">大爽歌的2020直播年度报告</div> -->
+
+    <div class="danmu-content">
+        <div id="s3-board">
+        </div>
+        <!-- <div class="rolling-danmuku danmu-speed-0"><span style="background:"><span></div> -->
+        <div id="s5-board"></div>
+        <div id="s6-board"></div>
+    </div>
+
+    <div class="main-content s0-content">
+        <h2 class="main-title" id = "s0-title">
+            <span class="title-point dynamic-letters" id="s0-super-star"></span>
+            <br>
+            <span class="letters" id="s0-letters"></span>
+        </h2>
+    </div>
+
+    <div class="main-content s1-content">
+        <h2 class="main-title" id = "s1-title">
+            <span class="prefix-letters"></span>
+            <span class="title-point dynamic-letters" id="s1-live-day"></span>
+            <span class="suffix-letters dynamic-letters"></span>
+        </h2>
+        <div class="chart-container s1-cc">
+            <canvas class="chart s1-chart" id="s1-chart" width="200" height="90"></canvas>
+        </div>
+    </div>
+
+    <div class="main-content s2-content">
+        <h2 class="main-title" id = "s2-title">
+            <!-- 多少人进入了直播间，他们共进入了多少次。-->
+            <span class="title-point dynamic-letters" id="s2-enter-number"></span>
+            <span class="letters-1" id="s2-letters-1"></span>
+            <span class="title-point dynamic-letters" id="s2-enter-times"></span>
+            <span class="letters-2 dynamic-letters" id="s2-letters-2"></span>
+            <br>
+            <!--  某某进入次数最多，他多少次进入你的直播间  -->
+            <span class="title-point dynamic-letters" id="s2-super-star"></span>
+            <span class="letters-3" id="s2-letters-3"></span>
+            <span class="title-point dynamic-letters" id="s2-super-num"></span>
+            <span class="letters-4 dynamic-letters" id="s2-letters-4"></span>
+            <br>
+        </h2>
+
+        <div class="chart-container s2-cc">
+            <canvas class="chart s2-chart" id="s2-chart" width="200" height="90"></canvas>
+        </div>
+    </div>
+
+    <div class="main-content s3-content">
+        <h2 class="main-title" id = "s3-title">
+            <!-- 多少人发了弹幕，他们共发了多少条。-->
+            <span class="title-point dynamic-letters" id="s3-says-pnum"></span>
+            <span class="letters-1" id="s3-letters-1"></span>
+            <span class="title-point dynamic-letters" id="s3-says-count"></span>
+            <span class="letters-2 dynamic-letters" id="s3-letters-2"></span>
+            <br>
+
+            <!--  某某发弹幕次数最多，发了多少条  -->
+            <span class="title-point dynamic-letters" id="s3-super-star"></span>
+            <span class="letters-3" id="s3-letters-3"></span>
+            <span class="title-point dynamic-letters" id="s3-super-num"></span>
+            <span class="letters-4 dynamic-letters" id="s3-letters-4"></span>
+            <br>
+        </h2>
+
+        <div class="danmuku-board s3-board" id="s3-board">
+        </div>
+
+        <div class="chart-container s3-cc">
+            <canvas class="chart s3-chart" id="s3-chart" width="200" height="90"></canvas>
+        </div>
+    </div>
+
+    <div class="main-content s4-content">
+        <h2 class="main-title" id = "s4-title">
+            <!-- 多少人关注了直播间-->
+            <span class="title-point dynamic-letters" id="s4-follow-pnum"></span>
+            <span class="letters-1" id="s4-letters"></span>
+        </h2>
+
+        <div class="chart-container s4-cc">
+            <canvas class="chart s4-chart" id="s4-chart" width="200" height="90"></canvas>
+        </div>
+    </div>
+
+    <div class="main-content s5-content">
+        <h2 class="main-title" id = "s5-title">
+            <!-- 多少人投喂了礼物-->
+            <span class="title-point dynamic-letters" id="s5-feed-count"></span>
+            <span class="letters-1" id="s5-letters-1"></span>
+            <br>
+            <!-- 某某投喂了最多的礼物-->
+            <span class="title-point dynamic-letters" id="s5-super-star"></span>
+            <span class="letters-1" id="s5-letters-2"></span>
+        </h2>
+
+        <div class="chart-container s5-cc">
+            <canvas class="chart s5-chart" id="s5-chart" width="200" height="90"></canvas>
+        </div>
+    </div>
+
+    <div class="main-content s6-content">
+        <h2 class="main-title" id = "s6-title">
+            <span class="letters-1" id="s6-letters-1"></span>
+            <span class="title-point dynamic-letters" id="s6-super-star"></span>
+            <span class="letters-1" id="s6-letters-2"></span>
+
+            <span class="title-point letters-1" id="s6-letters-3"></span>
+        </h2>
+
+        <div class="chart-container s6-cc" id="s6-cc">
+
+        </div>
+    </div>
+
+    <div class="main-content s7-content">
+        <h2 class="main-title" id = "s7-title">
+            <span class="title-point letters-1" id="s7-letters-1"></span>
+            <span class="title-point-2 letters-1" id="s7-letters-2"></span>
+            <br>
+            <span class="title-point-2 letters-2" id="s7-letters-3"></span>
+        </h2>
+
+        <div class="chart-container s7-cc" id="s7-cc">
+            
+        </div>
+    </div>
+
+
+</body>
+</html>
