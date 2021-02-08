@@ -8,13 +8,14 @@ const BACKGROUNDCOLOR = "#eeeeee"
  // otherwise the display is very poor
 const HIGH_EFFECT = false; 
 
-var UP_NAME = '大爽歌'
-
 
 const GIFT_DANMU_MAXNUM = 15  // for scene 5
 // Simply increasing GIFT_DANMU_MAXNUM value is invalid
 // (You need to add location in s5.js->function add_s5_danmu->locations)
 
 
-
 const S6_DANMU_MAXNUM = 150  // for scene 6
+
+
+
+const ONLY_POEMS = false ;  // 最后一页单独展示诗

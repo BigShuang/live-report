@@ -2,62 +2,116 @@ import json
 import os
 
 from log_contants import *
-from util import MONTHS, get_date, get_filename
+from util import MONTHS, get_date, get_filename, get_js_fp
 
 
-
-def get_live_days(path_list):
+def get_monthly_data(path_list, start_date, end_date, func):
     # 获取直播天数
-    res = []
-    ly, lm = None, None
+    months = []
+    month_data = []
+    ly, lm = start_date
+    start = True
     for p in path_list:
         y, m = get_date(get_filename(p))
         with open(p, "r", encoding="utf-8") as f:
             data = json.load(f)
 
         # 补齐没有直播的月份的数据
-        if lm is None:
-            lm = m
-        if ly is None:
-            ly = y
-
         if ly == y:
             # 年份相同， 月份不同，补齐中间月份
-            if lm != m:
-                lmi = MONTHS.index(lm)
-                mi = MONTHS.index(m)
-                for i in range(lmi+1, mi):
+            if lm < m:
 
-                    res.append(["%s-%s" % (y, MONTHS[i]), []])
+                if start:
+                    lm_nexti = MONTHS.index(lm)
+                    start = False
+                else:
+                    lm_nexti = MONTHS.index(lm) + 1
+
+                mi = MONTHS.index(m)
+                for i in range(lm_nexti, mi):
+                    months.append("%s-%s" % (y, MONTHS[i]))
+                    month_data.append(func())
         else:
-            lmi = MONTHS.index(lm)
+            # 年份不同， 补齐去年年尾今年年初
+            if start:
+                lm_nexti = MONTHS.index(lm)
+                start = False
+            else:
+                lm_nexti = MONTHS.index(lm) + 1
+
             mi = MONTHS.index(m)
-            for i in range(lmi+1, len(MONTHS)):
-                res.append(["%s-%s" % (ly, MONTHS[i]), []])
+            for i in range(lm_nexti+1, len(MONTHS)):
+                months.append("%s-%s" % (ly, MONTHS[i]))
+                month_data.append(func())
             for i in range(mi):
-                res.append(["%s-%s" % (y, MONTHS[i]), []])
+                months.append("%s-%s" % (y, MONTHS[i]))
+                month_data.append(func())
 
         lm = m
         ly = y
 
-        res.append(["%s-%s" % (y, m), data["days"]])
+        months.append("%s-%s" % (y, m))
+        month_data.append(func(data))
+    
+    # 补齐和终止月份之间的月份数据
+    while ly < end_date[0]:
+        if lm is None:
+            lm_nexti = 0
+        else:
+            if start:
+                lm_nexti = MONTHS.index(lm)
+                start = False
+            else:
+                lm_nexti = MONTHS.index(lm) + 1
 
-    return res
+        for i in range(lm_nexti, len(MONTHS)):
+            months.append("%s-%s" % (ly, MONTHS[i]))
+            month_data.append(func())
+        lm = None
+
+        ly = str(int(ly) + 1)
+
+    if ly == end_date[0]:
+        if lm is None:
+            lm_nexti = 0
+        else:
+            if start:
+                lm_nexti = MONTHS.index(lm)
+                start = False
+            else:
+                lm_nexti = MONTHS.index(lm) + 1
+        
+        for i in range(lm_nexti, mi):
+            months.append("%s-%s" % (y, MONTHS[i]))
+            month_data.append(func())
+
+    return months, month_data
 
 
-def output_live_days(days_data):
+def get_live_days(path_list, start_date, end_date):
+    # 获取直播天数
+    def get_data(data=None):
+        if data is None:
+            return []
+        else:
+            return data["days"]
+
+    return get_monthly_data(path_list, start_date, end_date, get_data)
+
+
+def output_live_days(months, days):
+    # scene 1 data
     # 直播天数数据导出到js文件
-    months_labels = []
     count_list = []
     all_count = 0
-    for month, days in days_data:
+    for days in days:
         count = len(days)
         all_count += count
         count_list.append(count)
-        months_labels.append(month)
 
-    with open('js/raw/scene1.js', 'w', encoding="utf-8") as fw:
-        fw.write("var months_labels = %s\n" % months_labels)
+    jsfp = get_js_fp(1)
+    with open(jsfp, 'w', encoding="utf-8") as fw:
+        fw.write("var months_labels = %s\n" % months)
         fw.write("var count_list = %s\n" % count_list)
         fw.write("var all_count = %s\n" % all_count)
 
@@ -101,6 +155,7 @@ def get_enter_info(log_list):
 
 
 def output_enter_info(enter_times, enter_number, enter_list):
+    # scene 2 data
     s2_rank_user = []
     s2_rank_times = []
     for item in enter_list[:20]:
@@ -108,58 +163,29 @@ def output_enter_info(enter_times, enter_number, enter_list):
         s2_rank_user.append(user)
         s2_rank_times.append(times)
 
-    with open('js/raw/scene2.js', 'w', encoding="utf-8") as fw:
+    jsfp = get_js_fp(2)
+    with open(jsfp, 'w', encoding="utf-8") as fw:
         fw.write("var s2_enter_times = %s\n" % enter_times)
         fw.write("var s2_enter_number = %s\n" % enter_number)
         fw.write("var s2_rank_user = %s\n" % s2_rank_user)
         fw.write("var s2_rank_times = %s\n" % s2_rank_times)
 
 
-def get_follow_info(log_list):
+def get_follow_info(log_list, start_date, end_date):
     # 每月关注人数
-    months = []
-    month_follows = []
-    ly, lm = None, None
-    for p in log_list:
-        y, m = get_date(get_filename(p))
-        with open(p, "r", encoding="utf-8") as f:
-            data = json.load(f)
 
-        # 补齐没有直播的月份的数据
-        if lm is None:
-            lm = m
-        if ly is None:
-            ly = y
-
-        if ly == y:
-            # 年份相同， 月份不同，补齐中间月份
-            if lm != m:
-                lmi = MONTHS.index(lm)
-                mi = MONTHS.index(m)
-                for i in range(lmi+1, mi):
-                    months.append("%s-%s" % (y, MONTHS[i]))
-                    month_follows.append([])
+    def get_data(data=None):
+        if data is None:
+            return []
         else:
-            lmi = MONTHS.index(lm)
-            mi = MONTHS.index(m)
-            for i in range(lmi+1, len(MONTHS)):
-                months.append("%s-%s" % (ly, MONTHS[i]))
-                month_follows.append([])
-            for i in range(mi):
-                months.append("%s-%s" % (y, MONTHS[i]))
-                month_follows.append([])
+            follows = data[str(DANMU_FOLLOW)]
+            return [item[4] for item in follows]
 
-        lm = m
-        ly = y
-
-        follows = data[str(DANMU_FOLLOW)]
-        months.append("%s-%s" % (y, m))
-        month_follows.append([item[4] for item in follows])
-
-    return months, month_follows
+    return get_monthly_data(log_list, start_date, end_date, get_data)
 
 
 def output_follow_info(months, month_follows):
+    # scene 4 data
     # 关注数据导出到js文件
     all_follow_count = 0
     count_list = []
@@ -169,7 +195,8 @@ def output_follow_info(months, month_follows):
         all_follow_count += count
         count_list.append(count)
 
-    with open('js/raw/scene4.js', 'w', encoding="utf-8") as fw:
+    jsfp = get_js_fp(4)
+    with open(jsfp, 'w', encoding="utf-8") as fw:
         fw.write("var s4_all_count = %s\n" % all_follow_count)
         fw.write("var s4_months_labels = %s\n" % months)
         fw.write("var s4_count_list = %s\n" % count_list)
@@ -201,6 +228,7 @@ def get_danmu_info(log_list):
 
 
 def output_danmu_info(says_count, says_pnum, says_list):
+    # scene 3 data
     # 弹幕发言统计
     s3_rank_user = []
     s3_rank_times = []
@@ -211,7 +239,9 @@ def output_danmu_info(says_count, says_pnum, says_list):
         s3_rank_times.append(len(says))
         s3_rank_danmus.append(says[:15])
 
-    with open('js/raw/scene3.js', 'w', encoding="utf-8") as fw:
+    
+    jsfp = get_js_fp(3)
+    with open(jsfp, 'w', encoding="utf-8") as fw:
         fw.write("var s3_says_count = %s\n" % says_count)
         fw.write("var s3_says_pnum = %s\n" % says_pnum)
         fw.write("var s3_rank_user = %s\n" % s3_rank_user)
@@ -257,6 +287,7 @@ def get_gift_info(log_list):
 
 
 def output_gift_info(gift_dict, sorted_gift_counts, sorted_gift_gold, sorted_gift_scores):
+    # scene 5 data
     rank_user = []
     gift_counts = []
     for row in sorted_gift_counts[:20]:
@@ -264,7 +295,8 @@ def output_gift_info(gift_dict, sorted_gift_counts, sorted_gift_gold, sorted_gif
         rank_user.append(name)
         gift_counts.append(num)
 
-    with open('js/raw/scene5.js', 'w', encoding="utf-8") as fw:
+    jsfp = get_js_fp(5)
+    with open(jsfp, 'w', encoding="utf-8") as fw:
         fw.write("var s5_all_count = %s\n" % len(gift_dict))
         fw.write("var s5_rank_user = %s\n" % rank_user)
         fw.write("var s5_gift_counts = %s\n" % gift_counts)
@@ -305,10 +337,13 @@ def get_aboard_info(log_list):
     captains_danmus = [says_dict[captain[0]][:200] for captain in captains]
     return captains, captains_danmus
 
+
 def output_aboard_info(captains, captains_danmus):
+    # scene 6 data
     captain_names = [captain[0] for captain in captains]
     captain_ranks = [captain[1] for captain in captains]
-    with open('js/raw/scene6.js', 'w', encoding="utf-8") as fw:
+    jsfp = get_js_fp(6)
+    with open(jsfp, 'w', encoding="utf-8") as fw:
         fw.write("var s6_captain_names = %s\n" % captain_names)
         fw.write("var s6_captain_ranks = %s\n" % captain_ranks)
         fw.write("var s6_captain_danmus =  [ \n" )
@@ -322,15 +357,14 @@ def output_aboard_info(captains, captains_danmus):
         fw.write("]" ) 
 
 
-def main():
+def output_all(start_time, end_time, debug=False):
     log_path = "log_json"
     log_list = [os.path.join(log_path, log) for log in os.listdir(log_path)]
-    show = False
-    # show = True
-    if not show:
+    # debug = True
+    if not debug:
         # 1 - 直播天数
-        days = get_live_days(log_list)
-        output_live_days(days)
+        res1 = get_live_days(log_list, start_time, end_time)
+        output_live_days(*res1)
         # 2 - 进入次数
         res2 = get_enter_info(log_list)
         output_enter_info(*res2)
@@ -338,7 +372,7 @@ def main():
         res3 = get_danmu_info(log_list)
         output_danmu_info(*res3)
         # 4 - 关注信息
-        res4 = get_follow_info(log_list)
+        res4 = get_follow_info(log_list, start_time, end_time)
         output_follow_info(*res4)
         # 5 - 打赏信息
         res5 = get_gift_info(log_list)
@@ -346,11 +380,10 @@ def main():
         # 6 - 舰长特写 -> 上船特写
         res6 = get_aboard_info(log_list)
         output_aboard_info(*res6)
-
     else:
         res6 = get_aboard_info(log_list)
         output_aboard_info(*res6)
 
 
 if __name__ == '__main__':
-    main()
+    output_all()

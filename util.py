@@ -1,5 +1,5 @@
 import os
-
+from project_contants import raw_dir, data_suffix
 
 MONTHS = ["{:0>2}".format(i) for i in range(1,13)]
 
@@ -15,6 +15,13 @@ def get_date(date_str):
     return (year, month)
 
 
+def get_js_fp(index):
+    return os.path.join(raw_dir, "%s%s.js" % (data_suffix, index))
+
+
+
 if __name__ == '__main__':
     f1 = r"F:\UP PIG\myprojects\live-report\log_json\2020_03.json"
     get_filename(f1)
+
+

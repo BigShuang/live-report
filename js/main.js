@@ -1,4 +1,3 @@
-var CUR_PAGE = 0
 function click_scene(event) {
     if (event.button==0) {
         UR_PAGE += 1
@@ -8,8 +7,10 @@ function click_scene(event) {
 
 
 document.onkeydown = function (e) {
-    var keyCode = e.keyCode;
-    if(keyCode==39){
+    // console.log(e.key)
+    // console.log(e.code)
+
+    if(e.key=="ArrowRight" || (NEXT_PAGE_KEY != undefined && e.key == NEXT_PAGE_KEY) ){
         CUR_PAGE += 1
         play()
     }
