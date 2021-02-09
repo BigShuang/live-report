@@ -105,13 +105,13 @@ em = tk.StringVar(win, value=str(default_month))
 ttk.Combobox(frame_s1, values=[str(default_year + i - 2) for i in range(5)],
     textvariable=sy, width=5).grid(row=0, column=0)
 ttk.Label(frame_s1, text="年").grid(row=0, column=1)
-ttk.Combobox(frame_s1, values=[str(i+1) for i in range(12)],
+ttk.Combobox(frame_s1, values=["{:0>2}".format(i+1) for i in range(12)],
     textvariable=sm, width=3).grid(row=0, column=2)
 ttk.Label(frame_s1, text="月(含) —— ").grid(row=0, column=3)
 ttk.Combobox(frame_s1, values=[str(default_year + i - 2) for i in range(5)],
     textvariable=ey, width=5).grid(row=0, column=4)
 ttk.Label(frame_s1, text="年").grid(row=0, column=5)
-ttk.Combobox(frame_s1, values=[str(i+1) for i in range(12)],
+ttk.Combobox(frame_s1, values=["{:0>2}".format(i+1) for i in range(12)],
     textvariable=em, width=3).grid(row=0, column=6)
 ttk.Label(frame_s1, text="月(不含)").grid(row=0, column=7)
 
@@ -119,7 +119,7 @@ sty = ttk.Style()
 sty.configure('my.TButton', font=font_2, foreground="#ff6384")
 
 b2 = ttk.Button(frame_1, text="导出年报数据", style='my.TButton', command=output_live_data)
-b2.grid(row=6, columnspan=2)
+b2.grid(row=6, columnspan=2, pady=20)
 
 label3 = ttk.Label(frame_1, textvariable=info, foreground="red")
 label3.grid(row=7, columnspan=2, pady=10)
@@ -191,18 +191,22 @@ ttk.Label(frame_2, text=" 最后温馨提示：", font=font_2, foreground="#ff63
 lines = [
     "如果你要录制视频投稿的话，推荐你筛选下导出数据中的弹幕",
     "删掉不适合公开的，比如无前后文后易产生歧义甚至引战的，或者泄露个人隐私的",
-    "推荐操作方法为：将项目中，js/raw文件夹下的js文件全部复制到js/screened文件夹中",
-    "删掉data_s3.js文件里变量s3_rank_danmus中的不合适弹幕",
-    "删掉data_s6.js文件里变量s6_captain_danmus中的不合适弹幕",
-    "目前就这两处有弹幕，删除后注意检查下js文件格式，格式不对年报会出错",
+    "具体操作方法见docs/custom.md文档中的1. 筛选弹幕内容",
 ]
 
 for i, line in enumerate(lines):
-    ttk.Label(frame_2, text=line, foreground="#ff6384").grid(row=5+i, columnspan=3)
+    ttk.Label(frame_2, text=line).grid(row=5+i, columnspan=3)
 
-ttk.Button(frame_2, text="按提示手动修改完成后，方可点击查看修改后的年报", style='my.TButton', command= view_main_report).grid(row=5+len(lines), columnspan=3, pady=10)
-ttk.Label(frame_2, text="更多操作可以打开项目文件夹下README.md了解（可用记事本打开）", foreground="#ff6384").grid(row=6+len(lines), columnspan=3)
+ttk.Button(frame_2, text="按文档手动修改完成后，方可点击查看修改后的年报", style='my.TButton', command= view_main_report).grid(row=5+len(lines), columnspan=3, pady=10)
+ttk.Label(frame_2, text="更多操作可以打开项目文件夹下README.md了解（可用记事本打开）", foreground="#ff6384").grid(row=6+len(lines), columnspan=3, pady=10)
 
+al = ttk.Label(frame_2, text="关于作者——大爽歌", style='my.TLabel')
+al.grid(row=7+len(lines), columnspan=3)
+pl = ttk.Label(frame_2, text="view in github", style='my.TLabel')
+pl.grid(row=8+len(lines), columnspan=3, pady=10)
+
+al.bind("<Button-1>", view_author)
+pl.bind("<Button-1>", view_project)
 
 def next_step():
     frame_1.pack_forget()
