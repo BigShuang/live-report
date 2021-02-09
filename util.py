@@ -13,6 +13,12 @@ def get_filename(abs_file):
 def get_date(date_str):
     year, month = date_str.split("_")
     return (year, month)
+    
+
+def check_and_create(one_dir):
+    if not os.path.exists(one_dir):
+        b = os.getcwd()
+        os.mkdir(os.path.join(b, one_dir))
 
 
 def get_js_fp(index):

@@ -2,8 +2,8 @@ import json
 import os
 
 from log_contants import *
-from util import MONTHS, get_date, get_filename, get_js_fp
-
+from util import MONTHS, get_date, get_filename, get_js_fp, check_and_create
+from project_contants import raw_dir
 
 def get_monthly_data(path_list, start_date, end_date, func):
     # 获取直播天数
@@ -358,6 +358,7 @@ def output_aboard_info(captains, captains_danmus):
 
 
 def output_all(start_time, end_time, debug=False):
+    check_and_create(raw_dir)
     log_path = "log_json"
     log_list = [os.path.join(log_path, log) for log in os.listdir(log_path)]
     # debug = True
@@ -386,4 +387,5 @@ def output_all(start_time, end_time, debug=False):
 
 
 if __name__ == '__main__':
-    output_all()
+    pass
+    # output_all()

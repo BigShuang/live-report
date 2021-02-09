@@ -5,7 +5,7 @@ import os
 import json
 import re
 from log_contants import TIME_REGEX, DANMU_REGEX, DAY_REGEX
-
+from util import check_and_create
 
 search_word = "關注了直播間"
 log_json_dir = "log_json"
@@ -40,17 +40,11 @@ def read_txt(danmu_path, txt_path, day_data, res={}):
     return res
 
 
-def check_and_create():
-    if not os.path.exists(log_json_dir):
-        b = os.getcwd()
-        os.mkdir(os.path.join(b, log_json_dir))
-
-
 def read_to_json(danmu_path, start_date, end_date):
     exist = os.path.exists(danmu_path)
     print(exist)
     if exist:
-        check_and_create()
+        check_and_create(log_json_dir)
         file_list = os.listdir(danmu_path)
         txt_list = [file for file in file_list if os.path.splitext(file)[1] == ".txt"]
 
