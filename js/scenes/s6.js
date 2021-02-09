@@ -23,6 +23,16 @@ function turn_page_6() {
 
 function show_page_6() {
     if(s6_captain_names.length == 0){
+        anime.timeline({loop: false})
+        .add({
+            targets: '#s5-title .dynamic-letters',
+            translateY: [0, -100],
+            translateZ: 0,
+            opacity: [1, 0],
+            easing: "easeOutExpo",
+            duration: 100,
+            delay: (el, i) => 40 * i
+        })
         return
     }else if(s6_captain_names.length == 1) {
         show_one_captain()

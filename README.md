@@ -13,5 +13,19 @@ generate a cool annual report for bilibili Live anchor
 5 - 手动筛选数据后，查看修改后的年报
 
 
+1 直播天数
+2 进入直播间次数
+3 弹幕数量
+
+
+
+项目技术路线：
+- python3 读取分析弹幕姬日志
+- html/css/js 展示年报
+
+使用到的js library:
+- chart.js
+- anime.js
+  
 
 技术细节见： details.md

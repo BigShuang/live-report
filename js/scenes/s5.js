@@ -84,6 +84,14 @@ function show_page_5() {
         }]
     };
 
+    var suggestMax = 10
+    if(s5_gift_counts.length>0){
+        if(Math.ceil(s5_gift_counts[0] * 1.05) > suggestMax){
+            suggestMax = Math.ceil(s5_gift_counts[0] * 1.05)
+        }
+    }
+    OPTIONS2["scales"]["xAxes"][0]["ticks"]["suggestedMax"] = suggestMax
+
     var myLineChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: chartData,

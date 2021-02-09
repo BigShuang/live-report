@@ -172,6 +172,15 @@ function show_page_3() {
     });
     
     var ctx = document.getElementById('s3-chart');
+
+    var suggestMax = 10
+    if(s3_rank_times.length>0){
+        if(Math.ceil(s3_rank_times[0] * 1.05) > suggestMax){
+            suggestMax = Math.ceil(s3_rank_times[0] * 1.05)
+        }
+    }
+    OPTIONS3["scales"]["xAxes"][0]["ticks"]["suggestedMax"] = suggestMax
+
     var s3_chart = new Chart(ctx, {
         type: 'horizontalBar',
         data: chartData,

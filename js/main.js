@@ -6,6 +6,13 @@ function click_scene(event) {
 }
 
 
+document.onmousedown = function (event) { 
+    if (event.button == 0 && CLICK_ENTER_NEXT) { 
+        CUR_PAGE += 1
+        play()
+    } 
+} 
+
 document.onkeydown = function (e) {
     // console.log(e.key)
     // console.log(e.code)

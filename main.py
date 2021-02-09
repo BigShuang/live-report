@@ -16,7 +16,7 @@ from process import output_all
 
 
 win = tk.Tk()
-win.geometry("900x500")
+win.geometry("900x550")
 win.title("两步导出个人b站直播年报 —— 大爽歌作")
 
 frame_1 = ttk.Frame(win)
@@ -54,6 +54,8 @@ def output_live_data():
         path=filename.get()
         if os.path.exists(path) and os.path.isdir(path):
             try:
+                info.set("数据导出中（导出成功后会自动跳转到下一界面）")
+                win.update()
                 read_to_json(path, start, end)
                 output_all(start, end)
                 info.set("OK")
@@ -198,12 +200,16 @@ lines = [
 for i, line in enumerate(lines):
     ttk.Label(frame_2, text=line, foreground="#ff6384").grid(row=5+i, columnspan=3)
 
-ttk.Button(frame_2, text="查看修改后的年报", width=25, style='my.TButton', command= view_main_report).grid(row=5+len(lines), columnspan=3, pady=10)
+ttk.Button(frame_2, text="按提示手动修改完成后，方可点击查看修改后的年报", style='my.TButton', command= view_main_report).grid(row=5+len(lines), columnspan=3, pady=10)
+ttk.Label(frame_2, text="更多操作可以打开项目文件夹下README.md了解（可用记事本打开）", foreground="#ff6384").grid(row=6+len(lines), columnspan=3)
+
 
 def next_step():
     frame_1.pack_forget()
     frame_2.pack()
 
+
 # next_step()
+
 
 win.mainloop()

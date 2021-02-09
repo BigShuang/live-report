@@ -82,7 +82,9 @@ var OPTIONS2 = {
         }],
         xAxes: [{
             ticks: {
+                min:0,
                 fontSize: 20,
+                // suggestedMax: 260 //max 
             }
         }]
     },
@@ -141,6 +143,7 @@ var OPTIONS3 = {
         }],
         xAxes: [{
             ticks: {
+                min: 0,
                 fontSize: 20,
             }
         }]

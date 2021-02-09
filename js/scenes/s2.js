@@ -86,6 +86,16 @@ function show_page_2() {
 
 
     var ctx = document.getElementById('s2-chart');
+
+    var suggestMax = 10
+    if(s2_rank_times.length>0){
+        if(Math.ceil(s2_rank_times[0] * 1.05) > suggestMax){
+            suggestMax = Math.ceil(s2_rank_times[0] * 1.05)
+        }
+    }
+    OPTIONS2["scales"]["xAxes"][0]["ticks"]["suggestedMax"] = suggestMax
+
+    s2_rank_times[0]
     var s2_chart = new Chart(ctx, {
         type: 'horizontalBar',
         data: chartData,
