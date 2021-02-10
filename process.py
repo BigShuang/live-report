@@ -334,7 +334,7 @@ def get_aboard_info(log_list):
         else:
             says_dict[name] = [word]
     
-    captains_danmus = [says_dict[captain[0]][:200] for captain in captains]
+    captains_danmus = [says_dict.get(captain[0], [])[:200] for captain in captains]
     return captains, captains_danmus
 
 
@@ -387,5 +387,6 @@ def output_all(start_time, end_time, debug=False):
 
 
 if __name__ == '__main__':
-    pass
-    # output_all()
+    start_date = ("2020", "02")
+    end_date = ("2021", "02")
+    output_all(start_date, end_date, True)
