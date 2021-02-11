@@ -37,8 +37,23 @@
 .captain-info {
     margin: 0 auto;
     width: fit-content;
-    padding: 3px;
-    font-size: 20px;
+    padding: 5px;
+    font-size: 28px;
+    line-height: 1.5;
+}
+
+.captain-info span:nth-child(1) {
+    text-shadow: 0 0 15px #22292C60;
+}
+
+.captain-info span:nth-child(2) {
+    text-shadow: 0 0 10px rgba(255, 209, 23, 0.8);
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.test {
+    color: #ff6384 
 }
 
 .s6-cc {

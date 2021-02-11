@@ -36,8 +36,46 @@ function show_page_6() {
         return
     }else if(s6_captain_names.length == 1) {
         show_one_captain()
+        anime.timeline({loop: false})
+            .add({
+                targets: '.s6-cc',
+                opacity: [0, 1],
+                easing: "easeOutExpo",
+                duration: 2000,
+            })
     }else if(s6_captain_names.length > 1) {
         show_aboard()
+        // 大航海特写， 让船员慢慢出现
+        anime.timeline({loop: false})
+            .add({
+                targets: '.s6-cc .captain-info',
+                opacity: [
+                    { value: [0, 1], duration: 400, easing: 'linear'},
+                    { value: [1, 1], duration: 300 + S6_DANMU_DURATION, easing: 'linear'},
+                    { value: [1, 0], duration: 330, easing: 'linear'}
+                ],
+                easing: "linear",
+                // duration: 2000,
+                delay: (el, i) => (1000 + S6_DANMU_DURATION) * i
+            }).add({
+                targets: '.s6-cc .captain-info',
+                opacity: 1,
+                easing: "linear",
+                duration: 500,
+            })
+
+        anime.timeline({loop: false})
+            .add({
+                targets: '#s6-board .captain-static-danmuku',
+                opacity: [
+                    { value: [0, 1], duration: 200, easing: 'linear'},
+                    { value: [1, 1], duration: 600 + S6_DANMU_DURATION, easing: 'linear'},
+                    { value: [1, 0], duration: 200, easing: 'linear'}
+                ],
+                easing: "linear",
+                // duration: 2000,
+                delay: (el, i) => (1000 + S6_DANMU_DURATION) * i
+            })
     }
 
     anime.timeline({loop: false})
@@ -59,15 +97,6 @@ function show_page_6() {
             duration: 100,
             delay: (el, i) =>  50 * i
         });
-    
-    // for 大航海特写， 让船员慢慢出现
-    anime.timeline({loop: false})
-        .add({
-            targets: '.s6-cc',
-            opacity: [0, 1],
-            easing: "easeOutExpo",
-            duration: 2000,
-        })
 }
 
 function show_one_captain() {
@@ -84,13 +113,40 @@ function show_one_captain() {
 function show_aboard() {
     document.getElementById('s6-letters-3').innerHTML= "大航海特写".replace(/\S/g,
         '<span class="dynamic-letters">$&</span>');
-
+    
     for(var i = 0; i < s6_captain_names.length; i++) {
+        var ci = i % COLORS6.length;
         var div = document.createElement("div");
         div.setAttribute('class', 'captain-info');
-        div.innerHTML = '<span style="background: '+ COLORS2[i] +'80; color: #fff">&nbsp;' +
-        s6_captain_ranks[i] + '&nbsp;</span>' + s6_captain_names[i];
+        get_fit_size(s6_captain_names.length, div)
+        div.innerHTML = '<span style="background: '+ COLORS6[ci] +'80; color: #fff">&nbsp;' +
+            s6_captain_ranks[i] + '&nbsp;</span>' + 
+            '<span style="color: '+ COLORS6[ci] +'80">&nbsp;' +
+            s6_captain_names[i] + '&nbsp;</span>'
         document.getElementById("s6-cc").appendChild(div);
+    }
+
+    add_static_danmu()
+}
+
+
+function get_fit_size(len, div){
+    // return fontSize, lineHeight
+    if(len<=10){
+        div.style["fontSize"] = "28px"
+        div.style["lineHeight"] = 1.5
+    }else if(len<=12){
+        div.style["fontSize"] = "26px"
+        div.style["lineHeight"] = 1.4
+    }else if(len<=13){
+        div.style["fontSize"] = "24px"
+        div.style["lineHeight"] = 1.3
+    }else if(len<=15){
+        div.style["fontSize"] = "22px"
+        div.style["lineHeight"] = 1.2
+    }else{
+        div.style["fontSize"] = "20px"
+        div.style["lineHeight"] = 1.1
     }
 }
 
@@ -142,4 +198,46 @@ function add_roll_danmu() {
         opacity: 1,
     })
     
+}
+
+
+function add_static_danmu(){
+    var wh = window.innerHeight, 
+        ww = window.innerWidth;
+
+    var i = 0;
+    var locations = [
+        // x(left), y(top)
+        [400, 50], [200, 140], [150, 220], [220, 360], [120, -200], [140, -100],
+        [-250, 80], [-200, 150], [-150, 240], [-180, 340], [-120, -250], [-140, -150],
+    ]
+
+    for(var ri=0; ri < s6_captain_danmus.length; ri++){
+        var pdiv = div = document.createElement("div");
+        pdiv.setAttribute('class', 'captain-static-danmuku captain-'+ri + '-danmuku');
+        for(var j=0; j < s6_captain_danmus[ri].length && j < locations.length && j< S6_DANMU_MAXNUM_2; j++){
+            var div = document.createElement("div");
+            div.setAttribute('class', 'static-danmuku captain-'+ri);
+            
+            var danmu = s6_captain_danmus[ri][j]
+
+            if(locations[j][0]>0){
+                div.style.left = locations[j][0] + "px";
+            }else{
+                div.style.left = (ww + locations[j][0] - danmu.length * 24) + "px";
+            }
+
+            if(locations[j][1]>0){
+                div.style.top = locations[j][1] + "px";
+            }else{
+                div.style.top = (wh + locations[j][1] - 24) + "px";
+            }
+
+            div.style.color = COLORS2[ri]
+
+            div.innerHTML = danmu
+            pdiv.appendChild(div);
+        }
+        document.getElementById("s6-board").appendChild(pdiv);
+    }
 }

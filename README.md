@@ -42,4 +42,3 @@ generate a cool annual report for bilibili Live anchor
 - anime.js
   
 技术细节见： `docs/details.md`
-
