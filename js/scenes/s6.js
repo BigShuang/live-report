@@ -56,7 +56,7 @@ function show_page_6() {
                 ],
                 easing: "linear",
                 // duration: 2000,
-                delay: (el, i) => (1000 + S6_DANMU_DURATION) * i
+                delay: (el, i) => 1400 + (1000 + S6_DANMU_DURATION) * i
             }).add({
                 targets: '.s6-cc .captain-info',
                 opacity: 1,
@@ -74,7 +74,7 @@ function show_page_6() {
                 ],
                 easing: "linear",
                 // duration: 2000,
-                delay: (el, i) => (1000 + S6_DANMU_DURATION) * i
+                delay: (el, i) => 1400 + (1000 + S6_DANMU_DURATION) * i
             })
     }
 
