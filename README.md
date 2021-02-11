@@ -11,7 +11,8 @@ generate a cool annual report for bilibili Live anchor
 4. 每月关注直播间人数
 5. 直播间投喂排行榜
 6. 大航海特写
-   只有一个就单独特写，多个就直接罗列
+   只有一个就单独特写，
+   多个就依次展示最后罗列
 7. 结束页，可写寄语。
 
 
